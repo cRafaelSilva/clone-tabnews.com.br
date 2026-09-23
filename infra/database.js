@@ -1,17 +1,18 @@
-import { Client } from "pg";
+import { Pool } from "pg";
 
 async function query(queryObj) {
-  const client = new Client({
+  const pool = new Pool({
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
+    masLifetimeSeconds: 60,
   });
 
-  await client.connect();
-  const result = await client.query(queryObj);
-  await client.end();
+  //await pool.connect();
+  const result = await pool.query(queryObj);
+  //await pool.end();
   return result;
 }
 
